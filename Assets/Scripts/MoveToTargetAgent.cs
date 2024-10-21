@@ -9,12 +9,13 @@ public class MoveToTargetAgent : Agent
 {
 
     [SerializeField] private Transform target;
+    [SerializeField] private SpriteRenderer backgroundspriteRenderer;
 
 
     public override void OnEpisodeBegin()
     {
         transform.position = new Vector3(Random.Range(-3.5f, -1.5f), Random.Range(-3.5f, 3.5f));
-        target.position = new Vector3(Random.Range(-1.5f, -3.5f), Random.Range(-3.5f, 3.5f));
+        target.position = new Vector3(Random.Range(1.5f, 3.5f), Random.Range(-3.5f, 3.5f));
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -44,11 +45,13 @@ public class MoveToTargetAgent : Agent
         if (collision.TryGetComponent(out Target target))
         {
             AddReward(10f);
+            backgroundspriteRenderer.color = Color.green;
             EndEpisode();
         }
         else if (collision.TryGetComponent(out Wall wall))
         {
             AddReward(-2f);
+            backgroundspriteRenderer.color = Color.red;
             EndEpisode();
         }
     }
